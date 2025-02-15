@@ -67,4 +67,18 @@ export const articleAnalysts = sqliteTable(
   })
 );
 
+export const users = sqliteTable("users", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  name: text("name").notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" })
+    .notNull()
+    .default(new Date()),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .notNull()
+    .default(new Date()),
+});
+
 export type Article = typeof articles.$inferSelect;
+export type User = typeof users.$inferSelect;
