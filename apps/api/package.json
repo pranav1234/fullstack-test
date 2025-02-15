@@ -5,19 +5,26 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "node --watch --loader ts-node/esm/transpile-only src/server.ts",
+    "dev": "node --watch --loader ts-node/esm/transpile-only src/index.ts",
     "database": "node --watch --loader ts-node/esm/transpile-only src/database.ts"
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",
     "@types/koa__router": "^12.0.4",
+    "@types/node": "^22.13.4",
+    "dotenv": "^16.4.7",
+    "drizzle-kit": "^0.30.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.0.0"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@koa/cors": "^5.0.0",
     "@koa/router": "^13.1.0",
+    "@types/koa-bodyparser": "^4.3.12",
+    "better-sqlite3": "^11.8.0",
+    "drizzle-orm": "^0.38.4",
     "koa": "^2.15.4",
+    "koa-bodyparser": "^4.4.1",
     "sqlite3": "^5.1.7"
   }
 }
