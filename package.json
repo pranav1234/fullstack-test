@@ -6,5 +6,11 @@
     "apps/*"
   ],
   "license": "MIT",
-  "private": true
+  "private": true,
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "better-sqlite3"
+    ]
+  }
 }
