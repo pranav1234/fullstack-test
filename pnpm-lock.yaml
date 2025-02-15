@@ -80,6 +80,9 @@ importers:
       drizzle-kit:
         specifier: ^0.30.2
         version: 0.30.4
+      esbuild-register:
+        specifier: ^3.6.0
+        version: 3.6.0(esbuild@0.19.12)
       jest:
         specifier: ^29.7.0
         version: 29.7.0(@types/node@22.13.4)(ts-node@10.9.2(@types/node@22.13.4)(typescript@5.7.3))
