@@ -24,4 +24,34 @@ export const articleController = {
       },
     };
   },
+
+  getArticleBySlug: async (ctx: Context) => {
+    try {
+      const { slug } = ctx.params;
+
+      if (!slug) {
+        ctx.status = 400;
+        ctx.body = {
+          status: "error",
+          message: "Slug is required",
+        };
+        return;
+      }
+
+      const article = await articleService.getArticleBySlug(slug);
+
+      ctx.body = {
+        status: "success",
+        data: {
+          article,
+        },
+      };
+    } catch (error) {
+      ctx.status = 404;
+      ctx.body = {
+        status: "error",
+        message: error instanceof Error ? error.message : "Article not found",
+      };
+    }
+  },
 };

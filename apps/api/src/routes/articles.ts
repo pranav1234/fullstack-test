@@ -13,5 +13,6 @@ articleRoutes.use(auth);
 
 // Article routes
 articleRoutes.get("/", articleController.getArticles);
+articleRoutes.get("/:slug", articleController.getArticleBySlug);
 
 export default articleRoutes;

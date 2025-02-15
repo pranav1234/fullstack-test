@@ -1,6 +1,7 @@
 import { db } from "../db/index.js";
 import { articles } from "../db/schema.js";
 import { sql } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 interface Article {
   slug: string;
@@ -37,6 +38,20 @@ export class ArticleService {
       total,
       totalPages,
     };
+  }
+
+  async getArticleBySlug(slug: string) {
+    const article = await db
+      .select()
+      .from(articles)
+      .where(eq(articles.slug, slug))
+      .limit(1);
+
+    if (!article.length) {
+      throw new Error("Article not found");
+    }
+
+    return article[0];
   }
 }
 
