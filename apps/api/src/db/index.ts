@@ -8,7 +8,7 @@ let db: BetterSQLite3Database<typeof schema>;
 
 try {
   // Initialize the SQLite database with resolved path
-  const sqlite = new Database(process.env.DB_FILE_NAME) as any;
+  const sqlite = new Database("data.db") as any;
 
   console.log("✅ Database connected successfully at:");
 
