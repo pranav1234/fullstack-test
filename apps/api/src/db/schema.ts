@@ -4,6 +4,7 @@ import {
   integer,
   primaryKey,
 } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
 
 export const contentTypes = sqliteTable("content_types", {
   id: integer("id").primaryKey(),
@@ -13,7 +14,8 @@ export const contentTypes = sqliteTable("content_types", {
 });
 
 export const channels = sqliteTable("channels", {
-  slug: text("slug").notNull().primaryKey(),
+  id: integer("rowid").primaryKey(), // Use SQLite's rowid
+  slug: text("slug").notNull().unique(),
   badge: text("badge"),
   name: text("name"),
 });
@@ -79,6 +81,41 @@ export const users = sqliteTable("users", {
     .notNull()
     .default(new Date()),
 });
+
+// Define article relations
+export const articlesRelations = relations(articles, ({ one, many }) => ({
+  channel: one(channels, {
+    fields: [articles.channelId],
+    references: [channels.id],
+  }),
+  articleAnalysts: many(articleAnalysts, {
+    fields: [articles.slug],
+    references: [articleAnalysts.articleSlug],
+  }),
+}));
+
+//  Define article-analysts relations
+export const articleAnalystsRelations = relations(
+  articleAnalysts,
+  ({ one }) => ({
+    article: one(articles, {
+      fields: [articleAnalysts.articleSlug],
+      references: [articles.slug],
+    }),
+    analyst: one(analysts, {
+      fields: [articleAnalysts.analystSlug],
+      references: [analysts.slug],
+    }),
+  })
+);
+
+// Define analyst relations
+export const analystsRelations = relations(analysts, ({ many }) => ({
+  articleAnalysts: many(articleAnalysts, {
+    fields: [analysts.slug],
+    references: [articleAnalysts.analystSlug],
+  }),
+}));
 
 export type Article = typeof articles.$inferSelect;
 export type User = typeof users.$inferSelect;
