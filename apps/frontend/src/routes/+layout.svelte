@@ -10,16 +10,9 @@
 	<header class="border-b bg-white">
 		<nav class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
 			<a href="/" class="text-primary-900 text-xl font-bold">Your App</a>
-
-			{#if data.user}
-				<div class="flex items-center gap-6">
-					<a
-						href="/articles"
-						class="text-primary-600 hover:text-primary-900"
-						class:active={$page.url.pathname.startsWith('/articles')}
-					>
-						Articles
-					</a>
+			<div class="flex items-center gap-6">
+				<a href="/articles" class="text-primary-600 hover:text-primary-900"> Articles </a>
+				{#if data.user}
 					<div class="group relative">
 						<form method="POST" action="/logout" class="w-full">
 							<button
@@ -30,12 +23,10 @@
 							</button>
 						</form>
 					</div>
-				</div>
-			{:else}
-				<div class="flex items-center gap-4">
+				{:else}
 					<a href="/login" class="text-primary-600 hover:text-primary-900 px-4 py-2"> Login </a>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</nav>
 	</header>
 

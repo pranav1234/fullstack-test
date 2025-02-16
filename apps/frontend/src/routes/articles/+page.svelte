@@ -5,10 +5,10 @@
 
 	let selectedAnalyst = '';
 	let selectedChannel = '';
-	$: currentPage = data.pagination.currentPage;
-	$: totalPages = data.pagination.totalPages;
-	$: totalItems = data.pagination.totalItems;
-	$: itemsPerPage = data.pagination.itemsPerPage;
+	const itemsPerPage = data.pagination.itemsPerPage;
+	const currentPage = data.pagination.currentPage;
+	const totalPages = data.pagination.totalPages;
+	const totalItems = data.pagination.totalItems;
 
 	// Get unique channels and analysts from the articles
 	const channels = [...new Set(data.articles.map((article) => article.channel?.name))].filter(
@@ -45,6 +45,13 @@
 		url.searchParams.set('page', page.toString());
 		window.history.pushState({}, '', url.toString());
 		window.location.reload();
+	}
+
+	function handleReadMore(e: Event) {
+		if (!data.user) {
+			e.preventDefault();
+			alert('Please log in to read the full article');
+		}
 	}
 </script>
 
@@ -159,10 +166,11 @@
 								</div>
 							{/if}
 
-							<div class="flex items-center justify-end">
+							<div class="mt-4 flex items-center justify-end">
 								<a
-									href={`/articles/${article.slug}`}
-									class="text-primary-900 hover:text-primary-700"
+									href="/articles/{article.slug}"
+									class="text-primary-600 hover:text-primary-900 inline-flex items-center text-sm font-medium"
+									on:click={handleReadMore}
 								>
 									Read more →
 								</a>

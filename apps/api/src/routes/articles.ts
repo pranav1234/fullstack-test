@@ -8,11 +8,10 @@ const auth = passport.authenticate("jwt", { session: false }) as Middleware;
 
 export const articleRoutes = new Router();
 
-// Protect all article routes with JWT authentication
-articleRoutes.use(auth);
-
-// Article routes
+// Public route - list articles with summaries only
 articleRoutes.get("/", articleController.getArticles);
-articleRoutes.get("/:slug", articleController.getArticleBySlug);
+
+// Protected route - get full article by slug
+articleRoutes.get("/:slug", auth, articleController.getArticleBySlug);
 
 export default articleRoutes;

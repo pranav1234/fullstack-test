@@ -2,18 +2,12 @@ import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ cookies, fetch, url }) => {
-	const token = cookies.get('token');
 	const page = url.searchParams.get('page') || '1';
 	const limit = '10'; // itemsPerPage
-
-	if (!token) {
-		throw redirect(303, '/login');
-	}
 
 	try {
 		const response = await fetch(`http://localhost:4000/articles?page=${page}&limit=${limit}`, {
 			headers: {
-				Authorization: `Bearer ${token}`,
 				'Content-Type': 'application/json'
 			}
 		});
