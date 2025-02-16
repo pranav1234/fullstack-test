@@ -1,11 +1,12 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { page } from '$app/stores';
 
-	export let data: PageData;
+	let { data } = $props();
 
 	const { article } = data;
 </script>
+
+<!-- Template with TyeScript checking -->
 
 <div class="bg-primary-50 min-h-screen py-8">
 	<article class="mx-auto max-w-4xl px-4">
@@ -44,7 +45,7 @@
 					</h1>
 					<div class="text-primary-600 flex items-center gap-4">
 						<span class="text-sm">
-							{new Date(article.createdAt).toLocaleDateString('en-US', {
+							{new Date(article.publishedAt).toLocaleDateString('en-US', {
 								year: 'numeric',
 								month: 'long',
 								day: 'numeric'

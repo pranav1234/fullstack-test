@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { ActionData } from './$types';
 
-	export let form: ActionData;
+	const { form } = $props<{ form: ActionData }>();
 </script>
 
 <div class="bg-primary-50 flex min-h-screen items-center justify-center px-4">

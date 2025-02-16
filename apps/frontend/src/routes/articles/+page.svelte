@@ -1,10 +1,7 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-
-	export let data: PageData;
-
-	let selectedAnalyst = '';
-	let selectedChannel = '';
+	let { data } = $props();
+	let selectedChannel = $state('');
+	let selectedAnalyst = $state('');
 	const itemsPerPage = data.pagination.itemsPerPage;
 	const currentPage = data.pagination.currentPage;
 	const totalPages = data.pagination.totalPages;
@@ -23,20 +20,22 @@
 	].filter(Boolean);
 
 	// Filter articles based on selections
-	$: filteredArticles = data.articles.filter((article) => {
-		const matchChannel = !selectedChannel || article.channel?.name === selectedChannel;
-		const matchAnalyst =
-			!selectedAnalyst ||
-			article.analysts?.some(
-				(analyst) => `${analyst.firstName} ${analyst.lastName}` === selectedAnalyst
-			);
-		return matchChannel && matchAnalyst;
-	});
+	const filteredArticles = $derived(
+		data.articles.filter((article: Article) => {
+			const matchChannel = !selectedChannel || article.channel?.name === selectedChannel;
+			const matchAnalyst =
+				!selectedAnalyst ||
+				article.analysts?.some(
+					(analyst) => `${analyst.firstName} ${analyst.lastName}` === selectedAnalyst
+				);
+			return matchChannel && matchAnalyst;
+		})
+	);
 
 	// Reset filters
 	function resetFilters() {
-		selectedAnalyst = '';
 		selectedChannel = '';
+		selectedAnalyst = '';
 		goToPage(1);
 	}
 

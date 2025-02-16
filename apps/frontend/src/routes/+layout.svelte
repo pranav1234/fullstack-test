@@ -1,9 +1,7 @@
 <script lang="ts">
 	import '../app.css';
-	import { page } from '$app/stores';
 	import type { LayoutData } from './$types';
-
-	export let data: LayoutData;
+	const { data, children } = $props<{ data: LayoutData }>();
 </script>
 
 <div class="flex min-h-screen flex-col">
@@ -31,6 +29,6 @@
 	</header>
 
 	<main class="flex-1">
-		<slot />
+		{@render children()}
 	</main>
 </div>
