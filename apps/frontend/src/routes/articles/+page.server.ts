@@ -1,4 +1,3 @@
-import { redirect } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ cookies, fetch, url }) => {
@@ -6,11 +5,7 @@ export const load: PageServerLoad = async ({ cookies, fetch, url }) => {
 	const limit = '10'; // itemsPerPage
 
 	try {
-		const response = await fetch(`http://localhost:4000/articles?page=${page}&limit=${limit}`, {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
+		const response = await fetch(`http://localhost:4000/articles?page=${page}&limit=${limit}`);
 
 		const result = await response.json();
 
