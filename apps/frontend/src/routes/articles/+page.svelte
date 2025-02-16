@@ -46,7 +46,10 @@
 								<span class="text-primary-500 text-sm">
 									{new Date(article.createdAt).toLocaleDateString()}
 								</span>
-								<a href={`/articles/${article.id}`} class="text-primary-900 hover:text-primary-700">
+								<a
+									href={`/articles/${article.slug}`}
+									class="text-primary-900 hover:text-primary-700"
+								>
 									Read more →
 								</a>
 							</div>
