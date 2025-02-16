@@ -1,11 +1,14 @@
 <script lang="ts">
 	import type { PageData } from './$types';
-	import { page } from '$app/stores';
 
 	export let data: PageData;
 
 	let selectedAnalyst = '';
 	let selectedChannel = '';
+	$: currentPage = data.pagination.currentPage;
+	$: totalPages = data.pagination.totalPages;
+	$: totalItems = data.pagination.totalItems;
+	$: itemsPerPage = data.pagination.itemsPerPage;
 
 	// Get unique channels and analysts from the articles
 	const channels = [...new Set(data.articles.map((article) => article.channel?.name))].filter(
@@ -34,6 +37,14 @@
 	function resetFilters() {
 		selectedAnalyst = '';
 		selectedChannel = '';
+		goToPage(1);
+	}
+
+	function goToPage(page: number) {
+		const url = new URL(window.location.href);
+		url.searchParams.set('page', page.toString());
+		window.history.pushState({}, '', url.toString());
+		window.location.reload();
 	}
 </script>
 
@@ -96,7 +107,7 @@
 			</div>
 		{/if}
 
-		{#if data.articles.length === 0}
+		{#if filteredArticles.length === 0}
 			<div class="rounded-lg bg-white p-6 text-center shadow">
 				<p class="text-primary-600">No articles found</p>
 			</div>
@@ -160,6 +171,50 @@
 					</article>
 				{/each}
 			</div>
+
+			<!-- Pagination Controls -->
+			{#if totalPages > 1}
+				<div class="mt-8 flex justify-center gap-2">
+					<button
+						class="rounded-md px-3 py-2 text-sm font-medium transition-colors
+							{currentPage === 1
+							? 'cursor-not-allowed bg-blue-100 text-blue-400'
+							: 'bg-blue-200 text-blue-800 hover:bg-blue-300'}"
+						disabled={currentPage === 1}
+						on:click={() => goToPage(currentPage - 1)}
+					>
+						Previous
+					</button>
+
+					{#each Array(totalPages) as _, i}
+						<button
+							class="rounded-md px-3 py-2 text-sm font-medium transition-colors
+								{currentPage === i + 1 ? 'bg-blue-900 text-white' : 'bg-blue-200 text-blue-800 hover:bg-blue-300'}"
+							on:click={() => goToPage(i + 1)}
+						>
+							{i + 1}
+						</button>
+					{/each}
+
+					<button
+						class="rounded-md px-3 py-2 text-sm font-medium transition-colors
+							{currentPage === totalPages
+							? 'cursor-not-allowed bg-blue-100 text-blue-400'
+							: 'bg-blue-200 text-blue-800 hover:bg-blue-300'}"
+						disabled={currentPage === totalPages}
+						on:click={() => goToPage(currentPage + 1)}
+					>
+						Next
+					</button>
+				</div>
+
+				<div class="mt-4 text-center text-sm text-blue-600">
+					Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(
+						currentPage * itemsPerPage,
+						totalItems
+					)} of {totalItems} articles
+				</div>
+			{/if}
 		{/if}
 	</div>
 </div>
